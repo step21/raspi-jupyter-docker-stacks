@@ -1,0 +1,469 @@
+Sending build context to Docker daemon  3.072kB
+Step 1/13 : FROM step21/jupyter-minimal-notebook
+ ---> bf8c2111a790
+Step 2/13 : USER root
+ ---> Using cache
+ ---> 071744ab1f14
+Step 3/13 : RUN wget -O - https://deb.nodesource.com/setup_12.x | bash
+ ---> Using cache
+ ---> 4748b300717b
+Step 4/13 : RUN apt-get install -y nodejs g++ make software-properties-common libzmq3-dev
+ ---> Using cache
+ ---> 3505ae09b946
+Step 5/13 : RUN git clone https://github.com/notablemind/jupyter-nodejs.git $HOME/jupyter-nodejs
+ ---> Using cache
+ ---> e7726575d3d8
+Step 6/13 : RUN chown -R $NB_USER $HOME/jupyter-nodejs
+ ---> Using cache
+ ---> 293100ffd2d2
+Step 7/13 : WORKDIR $HOME/jupyter-nodejs
+ ---> Using cache
+ ---> 265c548a5017
+Step 8/13 : USER $NB_USER
+ ---> Using cache
+ ---> a1399bcd571c
+Step 9/13 : RUN mkdir -p ~/.ipython/kernels/nodejs/
+ ---> Using cache
+ ---> 97dfb1d53b36
+Step 10/13 : RUN npm install && node install.js
+ ---> Running in 7b3d4a582591
+[91mnpm WARN[0m[91m deprecated coffee-script@1.12.7: CoffeeScript on NPM has moved to "coffeescript" (no hyphen)
+[0m[91mnpm [0m[91mWARN deprecated chokidar@1.7.0: Chokidar 2 will break on node v14+. Upgrade to chokidar 3 with 15x less dependencies.
+[0m[91mnpm [0m[91mWARN deprecated core-js@2.6.11: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+[0m[91mnpm WARN[0m[91m deprecated[0m[91m fsevents@1.2.13: fsevents 1 will break on node v14+ and could be using insecure binaries. Upgrade to fsevents 2.
+[0m[91mnpm WARN[0m[91m deprecated core-js@1.2.7: core-js@<3 is no longer maintained and not recommended for usage due to the number of issues. Please, upgrade your dependencies to the actual version of core-js@3.
+[0m[91mnpm [0m[91mWARN deprecated minimatch@2.0.10: Please update to minimatch 3.0.2 or higher to avoid a RegExp DoS issue
+[0m[91mnpm WARN deprecated resolve-url@0.2.1: https://github.com/lydell/resolve-url#deprecated
+[0m[91mnpm [0m[91mWARN deprecated urix@0.1.0: Please see https://github.com/lydell/urix#deprecated
+[0m
+> zmq@2.15.3 install /home/jovyan/jupyter-nodejs/node_modules/zmq
+> node-gyp rebuild
+
+make: Entering directory '/home/jovyan/jupyter-nodejs/node_modules/zmq/build'
+  CXX(target) Release/obj.target/zmq/binding.o
+[91mIn file included from ../binding.cc:29:0:
+/usr/include/zmq_utils.h:46:84: note: #pragma message: Warning: zmq_utils.h is deprecated. All its functionality is provided by zmq.h.
+   "Warning: zmq_utils.h is deprecated. All its functionality is provided by zmq.h.")
+                                                                                    ^
+[0m[91mIn file included from ../../nan/nan.h:190:0,
+                 from ../binding.cc:38:
+../../nan/nan_maybe_43_inl.h: In function ‘Nan::Maybe<bool> Nan::ForceSet(v8::Local<v8::Object>, v8::Local<v8::Value>, v8::Local<v8::Value>, v8::PropertyAttribute)’:
+../../nan/nan_maybe_43_inl.h:88:15: error: ‘class v8::Object’ has no member named ‘ForceSet’
+   return obj->ForceSet(GetCurrentContext(), key, value, attribs);
+               ^~~~~~~~
+[0m[91mIn file included from ../../nan/nan_converters.h:59:0,
+                 from ../../nan/nan.h:195,
+                 from ../binding.cc:38:
+../../nan/nan_converters_43_inl.h: In static member function ‘static Nan::imp::ToFactoryBase<v8::Boolean>::return_t Nan::imp::ToFactory<v8::Boolean>::convert(v8::Local<v8::Value>)’:
+../../nan/nan_converters_43_inl.h:15:45: warning: ‘v8::MaybeLocal<v8::Boolean> v8::Value::ToBoolean(v8::Local<v8::Context>) const’ is deprecated: ToBoolean can never throw. Use Local version. [-Wdeprecated-declarations]
+   return val->To ## TYPE(GetCurrentContext());                                 \
+                                             ^
+../../nan/nan_converters_43_inl.h:18:1: note: in expansion of macro ‘X’
+ X(Boolean)
+ ^
+[0m[91mIn file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2664:59: note: declared here
+                 V8_WARN_UNUSED_RESULT MaybeLocal<Boolean> ToBoolean(
+                                                           ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../../nan/nan_converters.h:59:0,
+                 from ../../nan/nan.h:195,
+                 from ../binding.cc:38:
+../../nan/nan_converters_43_inl.h: In static member function ‘static Nan::imp::ValueFactoryBase<bool>::return_t Nan::imp::ToFactory<bool>::convert(v8::Local<v8::Value>)’:
+../../nan/nan_converters_43_inl.h:31:48: warning: ‘v8::Maybe<bool> v8::Value::BooleanValue(v8::Local<v8::Context>) const’ is deprecated: BooleanValue can never throw. Use Isolate version. [-Wdeprecated-declarations]
+   return val->NAME ## Value(GetCurrentContext());                              \
+                                                ^
+../../nan/nan_converters_43_inl.h:34:1: note: in expansion of macro ‘X’
+ X(bool, Boolean)
+ ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2702:51: note: declared here
+                 V8_WARN_UNUSED_RESULT Maybe<bool> BooleanValue(
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../../nan/nan_new.h:189:0,
+                 from ../../nan/nan.h:196,
+                 from ../binding.cc:38:
+../../nan/nan_implementation_12_inl.h: In static member function ‘static Nan::imp::FactoryBase<v8::Function>::return_t Nan::imp::Factory<v8::Function>::New(Nan::FunctionCallback, v8::Local<v8::Value>)’:
+../../nan/nan_implementation_12_inl.h:109:32: error: no matching function for call to ‘v8::Function::New(v8::Isolate*&, void (&)(const v8::FunctionCallbackInfo<v8::Value>&), v8::Local<v8::Object>&)’
+                           , obj));
+                                ^
+[0m[91mIn file included from ../binding.cc:24:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:4275:31: note: candidate: static v8::MaybeLocal<v8::Function> v8::Function::New(v8::Local<v8::Context>, v8::FunctionCallback, v8::Local<v8::Value>, int, v8::ConstructorBehavior, v8::SideEffectType)
+   static MaybeLocal<Function> New(
+                               ^~~
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:4275:31: note:   no known conversion for argument 1 from ‘v8::Isolate*’ to ‘v8::Local<v8::Context>’
+[0m[91mIn file included from ../../nan/nan_new.h:189:0,
+                 from ../../nan/nan.h:196,
+                 from ../binding.cc:38:
+../../nan/nan_implementation_12_inl.h: In static member function ‘static Nan::imp::FactoryBase<v8::StringObject>::return_t Nan::imp::Factory<v8::StringObject>::New(v8::Local<v8::String>)’:
+../../nan/nan_implementation_12_inl.h:345:37: error: no matching function for call to ‘v8::StringObject::New(v8::Local<v8::String>&)’
+   return v8::StringObject::New(value).As<v8::StringObject>();
+                                     ^
+[0m[91mIn file included from ../binding.cc:24:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:5531:23: note: candidate: static v8::Local<v8::Value> v8::StringObject::New(v8::Isolate*, v8::Local<v8::String>)
+   static Local<Value> New(Isolate* isolate, Local<String> value);
+                       ^~~
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:5531:23: note:   candidate expects 2 arguments, 1 provided
+[0m[91mIn file included from ../../nan/nan_new.h:189:0,
+                 from ../../nan/nan.h:196,
+                 from ../binding.cc:38:
+../../nan/nan_implementation_12_inl.h:345:58: error: expected primary-expression before ‘>’ token
+   return v8::StringObject::New(value).As<v8::StringObject>();
+                                                          ^
+[0m[91m../../nan/nan_implementation_12_inl.h:345:60: error: expected primary-expression before ‘)’ token
+   return v8::StringObject::New(value).As<v8::StringObject>();
+                                                            ^
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In function ‘v8::Local<v8::Value> Nan::MakeCallback(v8::Local<v8::Object>, v8::Local<v8::Function>, int, v8::Local<v8::Value>*)’:
+../../nan/nan.h:817:60: warning: ‘v8::Local<v8::Value> node::MakeCallback(v8::Isolate*, v8::Local<v8::Object>, v8::Local<v8::Function>, int, v8::Local<v8::Value>*)’ is deprecated: Use MakeCallback(..., async_context) [-Wdeprecated-declarations]
+         v8::Isolate::GetCurrent(), target, func, argc, argv);
+                                                            ^
+[0m[91mIn file included from ../binding.cc:25:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:182:50: note: declared here
+                 NODE_EXTERN v8::Local<v8::Value> MakeCallback(
+                                                  ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:101:42: note: in definition of macro ‘NODE_DEPRECATED’
+     __attribute__((deprecated(message))) declarator
+                                          ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In function ‘v8::Local<v8::Value> Nan::MakeCallback(v8::Local<v8::Object>, v8::Local<v8::String>, int, v8::Local<v8::Value>*)’:
+../../nan/nan.h:831:62: warning: ‘v8::Local<v8::Value> node::MakeCallback(v8::Isolate*, v8::Local<v8::Object>, v8::Local<v8::String>, int, v8::Local<v8::Value>*)’ is deprecated: Use MakeCallback(..., async_context) [-Wdeprecated-declarations]
+         v8::Isolate::GetCurrent(), target, symbol, argc, argv);
+                                                              ^
+In file included from ../binding.cc:25:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:175:50: note: declared here
+                 NODE_EXTERN v8::Local<v8::Value> MakeCallback(
+                                                  ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:101:42: note: in definition of macro ‘NODE_DEPRECATED’
+     __attribute__((deprecated(message))) declarator
+                                          ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In function ‘v8::Local<v8::Value> Nan::MakeCallback(v8::Local<v8::Object>, const char*, int, v8::Local<v8::Value>*)’:
+../../nan/nan.h:845:62: warning: ‘v8::Local<v8::Value> node::MakeCallback(v8::Isolate*, v8::Local<v8::Object>, const char*, int, v8::Local<v8::Value>*)’ is deprecated: Use MakeCallback(..., async_context) [-Wdeprecated-declarations]
+         v8::Isolate::GetCurrent(), target, method, argc, argv);
+                                                              ^
+In file included from ../binding.cc:25:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:168:50: note: declared here
+                 NODE_EXTERN v8::Local<v8::Value> MakeCallback(
+                                                  ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:101:42: note: in definition of macro ‘NODE_DEPRECATED’
+     __attribute__((deprecated(message))) declarator
+                                          ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In constructor ‘Nan::Utf8String::Utf8String(v8::Local<v8::Value>)’:
+../../nan/nan.h:890:53: error: no matching function for call to ‘v8::Value::ToString()’
+       v8::Local<v8::String> string = from->ToString();
+                                                     ^
+In file included from ../binding.cc:24:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2668:44: note: candidate: v8::MaybeLocal<v8::String> v8::Value::ToString(v8::Local<v8::Context>) const
+   V8_WARN_UNUSED_RESULT MaybeLocal<String> ToString(
+                                            ^~~~~~~~
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2668:44: note:   candidate expects 1 argument, 0 provided
+[0m[91mIn file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2684:31: note: candidate: v8::Local<v8::String> v8::Value::ToString(v8::Isolate*) const
+                 Local<String> ToString(Isolate* isolate) const);
+                               ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2684:31: note:   candidate expects 1 argument, 0 provided
+                 Local<String> ToString(Isolate* isolate) const);
+                               ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h:900:74: error: no matching function for call to ‘v8::String::WriteUtf8(char*&, int, int, const int&)’
+         length_ = string->WriteUtf8(str_, static_cast<int>(len), 0, flags);
+                                                                          ^
+In file included from ../binding.cc:24:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2878:7: note: candidate: int v8::String::WriteUtf8(v8::Isolate*, char*, int, int*, int) const
+   int WriteUtf8(Isolate* isolate, char* buffer, int length = -1,
+       ^~~~~~~~~
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:2878:7: note:   no known conversion for argument 1 from ‘char*’ to ‘v8::Isolate*’
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘bool Nan::Callback::operator==(const Nan::Callback&) const’:
+../../nan/nan.h:1371:61: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     v8::Local<v8::Value> a = New(handle)->Get(kCallbackIndex);
+                                                             ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h:1372:67: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     v8::Local<v8::Value> b = New(other.handle)->Get(kCallbackIndex);
+                                                                   ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘v8::Local<v8::Function> Nan::Callback::GetFunction() const’:
+../../nan/nan.h:1403:56: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     return scope.Escape(New(handle)->Get(kCallbackIndex)
+                                                        ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘bool Nan::Callback::IsEmpty() const’:
+../../nan/nan.h:1409:43: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     return New(handle)->Get(kCallbackIndex)->IsUndefined();
+                                           ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘v8::Local<v8::Value> Nan::Callback::Call_(v8::Isolate*, v8::Local<v8::Object>, int, v8::Local<v8::Value>*) const’:
+../../nan/nan.h:1447:27: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+         Get(kCallbackIndex).As<v8::Function>();
+                           ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h:1463:5: warning: ‘v8::Local<v8::Value> node::MakeCallback(v8::Isolate*, v8::Local<v8::Object>, v8::Local<v8::Function>, int, v8::Local<v8::Value>*)’ is deprecated: Use MakeCallback(..., async_context) [-Wdeprecated-declarations]
+     ));
+     ^
+In file included from ../binding.cc:25:0:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:182:50: note: declared here
+                 NODE_EXTERN v8::Local<v8::Value> MakeCallback(
+                                                  ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/node.h:101:42: note: in definition of macro ‘NODE_DEPRECATED’
+     __attribute__((deprecated(message))) declarator
+                                          ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘void Nan::AsyncWorker::SaveToPersistent(const char*, const v8::Local<v8::Value>&)’:
+../../nan/nan.h:1518:64: warning: ‘bool v8::Object::Set(v8::Local<v8::Value>, v8::Local<v8::Value>)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     New(persistentHandle)->Set(New(key).ToLocalChecked(), value);
+                                                                ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3499:22: note: declared here
+                 bool Set(Local<Value> key, Local<Value> value));
+                      ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘void Nan::AsyncWorker::SaveToPersistent(const v8::Local<v8::String>&, const v8::Local<v8::Value>&)’:
+../../nan/nan.h:1524:42: warning: ‘bool v8::Object::Set(v8::Local<v8::Value>, v8::Local<v8::Value>)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     New(persistentHandle)->Set(key, value);
+                                          ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3499:22: note: declared here
+                 bool Set(Local<Value> key, Local<Value> value));
+                      ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘void Nan::AsyncWorker::SaveToPersistent(uint32_t, const v8::Local<v8::Value>&)’:
+../../nan/nan.h:1530:44: warning: ‘bool v8::Object::Set(uint32_t, v8::Local<v8::Value>)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     New(persistentHandle)->Set(index, value);
+                                            ^
+[0m[91mIn file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3508:22: note: declared here
+                 bool Set(uint32_t index, Local<Value> value));
+                      ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘v8::Local<v8::Value> Nan::AsyncWorker::GetFromPersistent(const char*) const’:
+../../nan/nan.h:1536:61: warning: ‘v8::Local<v8::Value> v8::Object::Get(v8::Local<v8::Value>)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+         New(persistentHandle)->Get(New(key).ToLocalChecked()));
+                                                             ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3553:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(Local<Value> key));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘v8::Local<v8::Value> Nan::AsyncWorker::GetFromPersistent(const v8::Local<v8::String>&) const’:
+../../nan/nan.h:1542:55: warning: ‘v8::Local<v8::Value> v8::Object::Get(v8::Local<v8::Value>)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     return scope.Escape(New(persistentHandle)->Get(key));
+                                                       ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3553:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(Local<Value> key));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In member function ‘v8::Local<v8::Value> Nan::AsyncWorker::GetFromPersistent(uint32_t) const’:
+../../nan/nan.h:1547:57: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+     return scope.Escape(New(persistentHandle)->Get(index));
+                                                         ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from /usr/include/c++/7/cassert:44:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/node_object_wrap.h:26,
+                 from ../../nan/nan.h:49,
+                 from ../binding.cc:38:
+../../nan/nan_object_wrap.h: In destructor ‘virtual Nan::ObjectWrap::~ObjectWrap()’:
+../../nan/nan_object_wrap.h:24:25: error: ‘class Nan::Persistent<v8::Object>’ has no member named ‘IsNearDeath’
+     assert(persistent().IsNearDeath());
+                         ^
+[0m[91mIn file included from ../../nan/nan.h:2192:0,
+                 from ../binding.cc:38:
+../../nan/nan_object_wrap.h: In member function ‘void Nan::ObjectWrap::MakeWeak()’:
+../../nan/nan_object_wrap.h:67:34: warning: ‘void v8::PersistentBase<T>::MarkIndependent() [with T = v8::Object]’ is deprecated: Weak objects are always considered independent. Use TracedGlobal when trying to use EmbedderHeapTracer. Use a strong handle when trying to keep an object alive. [-Wdeprecated-declarations]
+     persistent().MarkIndependent();
+                                  ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:570:22: note: declared here
+       V8_INLINE void MarkIndependent());
+                      ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from /usr/include/c++/7/cassert:44:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/node_object_wrap.h:26,
+                 from ../../nan/nan.h:49,
+                 from ../binding.cc:38:
+../../nan/nan_object_wrap.h: In static member function ‘static void Nan::ObjectWrap::WeakCallback(const v8::WeakCallbackInfo<Nan::ObjectWrap>&)’:
+../../nan/nan_object_wrap.h:124:26: error: ‘class Nan::Persistent<v8::Object>’ has no member named ‘IsNearDeath’
+     assert(wrap->handle_.IsNearDeath());
+                          ^
+[0m[91m../binding.cc: In destructor ‘zmq::Socket::IncomingMessage::MessageReference::~MessageReference()’:
+../binding.cc:999:54: warning: throw will always call terminate() [-Wterminate]
+               throw std::runtime_error(ErrorMessage());
+                                                      ^
+../binding.cc:999:54: note: in C++11 destructors default to noexcept
+[0m[91m../binding.cc: In destructor ‘zmq::Socket::OutgoingMessage::~OutgoingMessage()’:
+../binding.cc:1205:50: warning: throw will always call terminate() [-Wterminate]
+           throw std::runtime_error(ErrorMessage());
+                                                  ^
+../binding.cc:1205:50: note: in C++11 destructors default to noexcept
+[0m[91m../binding.cc: In static member function ‘static Nan::NAN_METHOD_RETURN_TYPE zmq::Socket::Sendv(Nan::NAN_METHOD_ARGS_TYPE)’:
+../binding.cc:1285:39: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+       Local<Object> buf = batch->Get(i).As<Object>();
+                                       ^
+[0m[91mIn file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91m../binding.cc:1286:48: warning: ‘v8::Local<v8::Value> v8::Object::Get(uint32_t)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+       Local<Number> flagsObj = batch->Get(i + 1).As<Number>();
+                                                ^
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3557:51: note: declared here
+   V8_DEPRECATED("Use maybe version", Local<Value> Get(uint32_t index));
+                                                   ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0m[91mIn file included from ../binding.cc:38:0:
+../../nan/nan.h: In instantiation of ‘void Nan::imp::SetMethodAux(T, v8::Local<v8::String>, v8::Local<v8::FunctionTemplate>, ...) [with T = v8::Local<v8::Object>]’:
+../../nan/nan.h:1888:20:   required from ‘void Nan::SetMethod(HandleType<T>, const char*, Nan::FunctionCallback) [with T = v8::Object; HandleType = v8::Local; Nan::FunctionCallback = void (*)(const Nan::FunctionCallbackInfo<v8::Value>&)]’
+../binding.cc:1572:52:   required from here
+../../nan/nan.h:1872:3: warning: ‘bool v8::Object::Set(v8::Local<v8::Value>, v8::Local<v8::Value>)’ is deprecated: Use maybe version [-Wdeprecated-declarations]
+   recv->Set(name, GetFunction(tpl).ToLocalChecked());
+   ^~~~
+In file included from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8-internal.h:14:0,
+                 from /home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:27,
+                 from ../binding.cc:24:
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8.h:3499:22: note: declared here
+                 bool Set(Local<Value> key, Local<Value> value));
+                      ^
+/home/jovyan/.cache/node-gyp/12.16.3/include/node/v8config.h:328:3: note: in definition of macro ‘V8_DEPRECATED’
+   declarator __attribute__((deprecated(message)))
+   ^~~~~~~~~~
+[0mzmq.target.mk:109: recipe for target 'Release/obj.target/zmq/binding.o' failed
+make: Leaving directory '/home/jovyan/jupyter-nodejs/node_modules/zmq/build'
+[91mmake: *** [Release/obj.target/zmq/binding.o] Error 1
+[0m[91mgyp[0m[91m [0m[91mERR! build error 
+[0m[91mgyp[0m[91m ERR! stack Error: `make` failed with exit code: 2
+gyp ERR! [0m[91mstack     at ChildProcess.onExit (/usr/lib/node_modules/npm/node_modules/node-gyp/lib/build.js:194:23)
+gyp ERR! [0m[91mstack     at ChildProcess.emit (events.js:310:20)
+[0m[91mgyp ERR! stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:275:12)
+[0m[91mgyp [0m[91mERR! System Linux 4.19.97-v7l+
+[0m[91mgyp ERR! command "/usr/bin/node" "/usr/lib/node_modules/npm/node_modules/node-gyp/bin/node-gyp.js" "rebuild"
+[0m[91mgyp ERR! cwd[0m[91m /home/jovyan/jupyter-nodejs/node_modules/zmq
+gyp ERR! [0m[91mnode -v v12.16.3
+gyp ERR![0m[91m node-gyp -v v5.1.0
+[0m[91mgyp ERR! not ok 
+[0m[91mnpm WARN [0m[91moptional SKIPPING OPTIONAL DEPENDENCY: fsevents@^1.0.0 (node_modules/chokidar/node_modules/fsevents):
+[0m[91mnpm [0m[91mWARN[0m[91m notsup SKIPPING OPTIONAL DEPENDENCY: Unsupported platform for fsevents@1.2.13: wanted {"os":"darwin","arch":"any"} (current: {"os":"linux","arch":"arm"})
+[0m[91mnpm WARN[0m[91m The package mkdirp is included as both a dev and production dependency.
+[0m[91m
+[0m[91mnpm ERR![0m[91m code ELIFECYCLE
+[0m[91mnpm ERR![0m[91m errno[0m[91m 1
+[0m[91mnpm [0m[91mERR! zmq@2.15.3 install: `node-gyp rebuild`
+[0m[91mnpm ERR! Exit status 1
+npm [0m[91mERR! 
+[0m[91mnpm ERR![0m[91m Failed at the zmq@2.15.3 install script.
+[0m[91mnpm ERR![0m[91m This is probably not a problem with npm. There is likely additional logging output above.
+[0m[91m
+[0m[91mnpm ERR! A complete log of this run can be found in:
+npm[0m[91m ERR![0m[91m     /home/jovyan/.npm/_logs/2020-05-13T12_01_31_803Z-debug.log
+[0m

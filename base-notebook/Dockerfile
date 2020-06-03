@@ -13,7 +13,7 @@ LABEL maintainer="Jupyter Project <jupyter@googlegroups.com>"
 ARG NB_USER="jovyan"
 ARG NB_UID="1000"
 ARG NB_GID="100"
-ENV PYTHON_VERSION='3.6.6'
+ENV PYTHON_VERSION='3.7.6'
 
 USER root
 
@@ -74,9 +74,9 @@ RUN mkdir /home/$NB_USER/work && \
     fix-permissions /home/$NB_USER
 
 # Install conda as jovyan and check the md5 sum provided on the download site
-ENV MINICONDA_VERSION=4.7.12.1
-ENV BERRYCONDA_MD5=1d8a60a9e201e3c30d927b5bf93b441d
-ENV BERRYCONDA_VERSION=2.0.0
+ENV MINIFORGE_VERSION=4.8.3-2
+ENV MINIFORGE_SHA256=34ba1c1504528493907fc2433a20103202b067be6cc0bdd3cfd0f3f88bae670d
+#ENV BERRYCONDA_VERSION=2.0.0
 
 #RUN cd /tmp && \
 #    wget --quiet https://repo.continuum.io/miniconda/Miniconda3-${MINICONDA_VERSION}-Linux-x86_64.sh && \
@@ -97,22 +97,22 @@ ENV BERRYCONDA_VERSION=2.0.0
 #    fix-permissions $CONDA_DIR && \
 #    fix-permissions /home/$NB_USER
 
-#Install BerryConda
+#Install MiniConda
 RUN cd /tmp && \
     mkdir -p $CONDA_DIR && \
-  wget https://github.com/jjhelmus/berryconda/releases/download/v${BERRYCONDA_VERSION}/Berryconda3-${BERRYCONDA_VERSION}-Linux-armv7l.sh && \
-    echo "${BERRYCONDA_MD5} *Berryconda3-${BERRYCONDA_VERSION}-Linux-armv7l.sh" | md5sum -c - && \
-    /bin/bash Berryconda3-${BERRYCONDA_VERSION}-Linux-armv7l.sh -f -b -p $CONDA_DIR && \
-    rm Berryconda3-${BERRYCONDA_VERSION}-Linux-armv7l.sh && \
-    echo "conda ${BERRYCONDA_VERSION}" >> $CONDA_DIR/conda-meta/pinned && \
+    wget https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/Miniforge3-${MINIFORGE_VERSION}-Linux-aarch64.sh && \
+    wget  https://github.com/conda-forge/miniforge/releases/download/${MINIFORGE_VERSION}/Miniforge3-${MINIFORGE_VERSION}-Linux-aarch64.sh.sha256 && \
+    echo "$(cat Miniforge3-${MINIFORGE_VERSION}-Linux-aarch64.sh.sha256)" | sha256sum  --check --status && \
+    /bin/bash Miniforge3-${MINIFORGE_VERSION}-Linux-aarch64.sh -f -b -p $CONDA_DIR && \
+    rm -rf Miniforge3-${MINIFORGE_VERSION}-Linux-aarch64.sh && \
+    echo "conda ${MINIFORGE_VERSION}" >> $CONDA_DIR/conda-meta/pinned && \
     conda config --system --prepend channels conda-forge && \
     conda config --system --set auto_update_conda false && \
     conda config --system --set show_channel_urls true && \
-    conda config --system --add channels rpi && \ 
     if [ ! $PYTHON_VERSION = 'default' ]; then conda install --yes python=$PYTHON_VERSION; fi && \
     conda list python | grep '^python ' | tr -s ' ' | cut -d '.' -f 1,2 | sed 's/$/.*/' >> $CONDA_DIR/conda-meta/pinned && \
-#   conda install --quiet --yes conda && \
-    conda install --yes python=$PYTHON_VERSION --channel rpi && \
+    conda install --quiet --yes conda && \
+    conda install --yes python=$PYTHON_VERSION && \
     conda install --quiet --yes pip && \
     conda clean --all -y -tipsy && \
     rm -rf /home/$NB_USER/.cache/yarn && \
@@ -121,18 +121,12 @@ RUN cd /tmp && \
 
 
 # Install Tini
-#RUN conda install --quiet --yes 'tini=0.18.0' && \
-#    conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \
-#    conda clean --all -f -y && \
-#    fix-permissions $CONDA_DIR && \
-#    fix-permissions /home/$NB_USER
-USER root
-# Install Tini from binary. Tini operates as a process subreaper for jupyter. This prevents kernel crashes.
-ENV TINI_VERSION 0.18.0
-RUN cd /tmp && wget --quiet https://github.com/krallin/tini/releases/download/v${TINI_VERSION}/tini-armhf && \
-  echo "01b54b934d5f5deb32aa4eb4b0f71d0e76324f4f0237cc262d59376bf2bdc269 *tini-armhf" | sha256sum -c - && \
-  mv tini-armhf /usr/local/bin/tini && \
-  chmod +x /usr/local/bin/tini
+RUN conda install --quiet --yes 'tini=0.18.0' && \
+    conda list tini | grep tini | tr -s ' ' | cut -d ' ' -f 1,2 >> $CONDA_DIR/conda-meta/pinned && \
+    conda clean --all -f -y && \
+    fix-permissions $CONDA_DIR && \
+    fix-permissions /home/$NB_USER
+
 USER $NB_UID
 # Install Jupyter Notebook, Lab, and Hub
 # Generate a notebook server config
@@ -141,11 +135,10 @@ USER $NB_UID
 # Do all this in a single RUN command to avoid duplicating all of the
 # files across image layers when the permissions change
 # somehow setting notebook version etc doesn't work with berryconda...
-RUN conda install --quiet --yes -c rpi \
+RUN conda install --quiet --yes \
     'notebook' \
     'jupyterlab' && \
     conda clean --all -tipsy && \
-#    npm cache clean --force && \
     jupyter notebook --generate-config && \
     rm -rf $CONDA_DIR/share/jupyter/lab/staging && \
     rm -rf /home/$NB_USER/.cache/yarn && \

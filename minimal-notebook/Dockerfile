@@ -1,6 +1,6 @@
 # Copyright (c) Jupyter Development Team, step21
 # Distributed under the terms of the Modified BSD License.
-ARG BASE_CONTAINER=step21/jupyter-base-notebook
+ARG BASE_CONTAINER=step21/jupyter-base-notebook:arm64
 FROM $BASE_CONTAINER
 
 LABEL maintainer="step21 <step21@devtal.de>"
